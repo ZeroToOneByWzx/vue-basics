@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <title>使用ref获取DOM元素和组件引用</title>
+    <script type="text/javascript">
+      var belle = {
+        template: "<h3>武林第一美人</h3>",
+        data() {
+          return {
+            name: "孔雀妃子梅吟雪",
+            subname: "李媚娘",
+          };
+        },
+        methods: {
+          show() {
+            console.log(this.subname);
+          },
+        },
+      };
+      window.onload = function () {
+        var vm = new Vue({
+          el: "#itany",
+          data: {},
+          methods: {
+            getResult() {
+              console.log(document.getElementById("xxy").innerText);
+              console.log(this.$refs.xxy.innerText);
+              console.log(this.$refs.mybelle.name);
+              this.$refs.mybelle.show();
+            },
+          },
+          components: {
+            belle, //belle:belled的简写
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="itany">
+      <input type="button" value="谁是当今武林第一美人" @click="getResult" />
+      <h3 id="xxy" ref="xxy">三少爷谢晓峰的女儿谢小玉</h3>
+      <hr />
+      <belle ref="mybelle"></belle>
+    </div>
+  </body>
+</html>

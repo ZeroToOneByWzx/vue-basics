@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>第三方动画-animate</title>
+		<link rel="stylesheet" type="text/css" href="../css/animate.css" />
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				var vm = new Vue({
+					el: '#itany',
+					data: {
+						flag: false//控制隐藏显示，ture：显示，false：隐藏
+					}
+				});
+			}
+		</script>
+		<style>
+			p {
+				width: 300px;
+				height: 300px;
+				background-color: red;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="itany">
+			<input type="button" value="隐藏/显示" @click="flag=!flag">
+			<transition enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutRight">
+				<p v-show="flag">Vue</p>
+			</transition>
+			
+			<!-- 1. 使用 transition 元素，把需要被动画控制的元素，包裹起来 -->
+			<transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+				<div v-if="flag">你见，或者不见我，我就在那里，不悲不喜</div>
+			</transition>
+			
+			<!-- 2.使用 :duration="毫秒值" 来统一设置 入场 和 离场 时候的动画时长-->
+			<transition enter-active-class="rubberBand" leave-active-class="swing" :duration="1000">
+				<div v-if="flag" class="animated">你念，或者不念我，情就在那里，不来不去</div>
+			</transition>
+			
+			<!-- 3.使用  :duration="{ enter: 300, leave: 600 }" 来分别设置入场的时长和离场的时长-->
+			<transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="{enter: 200, leave: 400}">
+				<div v-if="flag" class="animated"> 你爱,或者不爱我,爱就在那里,不增不减 </div>
+			</transition>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <title>$destroy</title>
+  </head>
+  <!-- $mount方法是用来挂载我们的扩展的  用$mount的方法把jspang挂载到DOM上，我们也生成了一个Vue的实例 -->
+  <body>
+    <h1>$destroy</h1>
+    <hr />
+    <div id="app">{{message}}</div>
+    <p><button onclick="destroy()">卸载</button></p>
+
+    <script type="text/javascript">
+      var jspang = Vue.extend({
+        template: `<p>{{message}}</p>`,
+        data: function () {
+          return {
+            message: "Hello ,I am JSPang",
+          };
+        },
+        mounted() {
+          console.log("mounted被创建");
+        },
+        destroyed() {
+            //销毁会调用生命周期的这个方法              
+            console.log("destroyed 销毁之后");
+        },
+      });
+      var vm = new jspang().$mount("#app");
+
+      //$destroy()后边必须要有括号，没有括号是无用的。
+      function destroy() {
+        vm.$destroy();
+      }
+    </script>
+  </body>
+</html>

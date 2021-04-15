@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				new Vue({
+					el: '#vue-app',
+					data: {
+						health: 100,
+						ended: false
+					},
+					methods: {
+						punch() {
+							this.health -= 10;
+							if (this.health <= 0) {
+								this.ended = true;
+							}
+						},
+						restart() {
+							this.health = 100;
+							this.ended = false;
+						}
+					},
+					computed: {
+
+					}
+				});
+			};
+		</script>
+		<style type="text/css">
+			#bag {
+				width: 200px;
+				height: 500px;
+				margin: 0 auto;
+				background: url(../img/小米10背面.jpg) center no-repeat;
+				background-size: 80%;
+			}
+			
+			#bag.burst { 
+				background: url(../img/小米10正面.jpg) center no-repeat;
+				background-size: 80%;
+			}
+
+			#bag-health {
+				width: 200px;
+				border: 2px #000000 solid;
+				margin: 0 auto 20px auto;
+			}
+
+			#bag-health div {
+				height: 20px;
+				background: red;
+			}
+
+			#controls {
+				width: 120px;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="vue-app">
+			<!-- bag image -->
+			<div id="bag" :class="{burst:ended}"></div>
+
+			<!-- bag health -->
+			<div id="bag-health">
+				<div :style="{width:health+'%'}"> </div>
+			</div>
+
+			<!-- game controls -->
+			<div id="controls">
+				<button @click="punch" v-show="!ended">Punch</button>
+				<button @click="restart">Restart</button>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>extend</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <!-- Vue.extend 返回的是一个“扩展实例构造器”,也就是预设了部分选项的Vue实例构造器。 -->
+  <!-- 经常服务于Vue.component用来生成组件，可以简单理解为当在模板中遇到该组件名称作为标签的自定义元素时，会自动调用“扩展实例构造器”来生产组件实例，并挂载到自定义元素上。 -->
+  <body>
+    <!-- 我们希望在html中只需要写<author></author>，这和自定义组件很像，但是他没有传递任何参数，只是个静态标签。 --> 
+    <author></author>
+    <!-- <div id="author"></div> -->
+    <hr />
+    <header></header>
+    <script>
+      var authorExtend = Vue.extend({
+        template: "<p><a :href='authorUrl'>{{authorName}}</a></p>",
+        data() {
+          return {
+            authorName: "Zero",
+            authorUrl: "https://www.baidu.com/",
+          };
+        },
+      });
+      //通过$mount进行挂载
+      new authorExtend().$mount("author"); //<author></author>
+      // new authorExtend().$mount("#author");//<div id="author"></div>
+
+
+      // propsData在实际开发中我们使用的并不多，我们在后边会学到Vuex的应用，他的作用就是在单页应用中保持状态和数据的。
+      var header_a = Vue.extend({
+        template: `<p>{{message}}-{{a}}</p>`,
+        data: function () {
+          return {
+            message: "Hello,I am Header",
+          };
+        },
+        props: ["a"],
+      });
+      new header_a({ propsData: { a: 1 } }).$mount("header");
+    </script>
+  </body>
+</html>

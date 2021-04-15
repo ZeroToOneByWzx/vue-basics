@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input type="text" v-model="number1" />
+      <select v-model="opt">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="÷">÷</option>
+      </select>
+      <input type="text" v-model="number2" />
+      <button @click="handlerSum">=</button>
+      <input type="text" v-model="sumNumber" />
+    </div>
+
+    <script>
+      var vue = new Vue({
+        el: "#app",
+        data: {
+          number1: 0,
+          number2: 0,
+          sumNumber: 0,
+          opt: "+",
+        },
+        methods: {
+          handlerSum() {
+            switch (this.opt) {
+              case "+":
+                this.sumNumber = parseInt(this.number1) + parseInt(this.number2);//parseInt()的作用 避免 字符串相加成了字符串拼接
+                break;
+              case "-":
+                this.sumNumber = parseInt(this.number1) - parseInt(this.number2);
+                break;
+              case "*":
+                this.sumNumber = parseInt(this.number1) * parseInt(this.number2);
+                break;
+              case "÷":
+                this.sumNumber = parseInt(this.number1) / parseInt(this.number2);
+                break;
+              default:
+                break;
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

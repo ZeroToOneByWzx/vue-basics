@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <title>创建组件</title>
+  </head>
+  <body>
+    <div id="app">
+      <my-component></my-component>
+      <my-component2></my-component2>
+      <my-component3></my-component3>
+      <hr />
+      <my-component4></my-component4>
+    </div>
+
+    <template id="temp1">
+      <div>
+        <div>哈哈哈哈</div>
+        <p>我是p标签</p>
+        <h1>我是个大大的h1</h1>
+      </div>
+    </template>
+
+    <script>
+      //方式1 使用Vue.extend来组件组件
+      //按照java的开发思想，变量名往往是驼峰规则。
+      //vue定义组件时可以使用驼峰规则，但是，使用组件时如果存在驼峰，应当全部改为小写，并将每个单词用 - 连接
+      Vue.component(
+        "myComponent",
+        Vue.extend({
+          template: "<h3>这是用extend组件的组件</h3>", // template就是组件要展示的内容，可以是html标签
+        })
+      );
+      //相当于
+      // var MyComponent = Vue.extend({template: '<h3>Hello World</h3>'});
+      // Vue.component('myComponent', MyComponent);
+
+      //方式2(推荐) 不使用extend去组件组件
+      Vue.component("myComponent2", {
+        template: "<h4>不使用extend去组件组件</h4>",
+      });
+
+      var num = 3;
+      // 不论用哪种方式去组件组件，组件template属性只能有一个。并且有且只能有一个根节点  不能是两个同级div>
+      // ES6语法：反引号 ` ES6中用来解决字符串拼接烦恼的新引号。在两个反引号之间可以写任何内容，不需要使用 + 拼接
+      // 如果在`中需要使用到变量，直接使用模板语法${}
+      Vue.component("myComponent3", {
+        template: `
+            		<div><h4>不使用extend去组件组件</h4>
+                  	<div>${num}</div></div>
+              	`,
+      });
+
+      // 3.使用template
+      Vue.component("myComponent4", {
+        template: "#temp1",
+      });
+
+      var vue = new Vue({
+        el: "#app",
+        data: {},
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>vuex示例</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <!-- 第一步.在 Vue 之后引入 vuex  -->
+    <script src="../js/vuex.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      // 第二步. new Vuex.Store() 实例，得到一个数据仓储对象
+      var store = new Vuex.Store({
+        state: {
+          //可以把state相像成组件中的data,专门用来存储数据的,这些数据事响应式的
+          count: 0,
+        },
+        mutations: {
+          //要操作store中的state值,只能通过调用mutations提供的方法,不推荐也不要直接操作state中的数据
+          //自增
+          increment(state) {
+            state.count++;
+          },
+          //自减
+          subtract(state, obj) {
+            state.count -= obj.val;
+          },
+        },
+        getters: {
+          //只负责对外提供数据,不负责修改数据
+          optCount: function (state) {
+            return "当前文本框的值是：" + state.count;
+          },
+        },
+      });
+
+      // 第三步.创建一个Vue 实例，得到 ViewModel
+      window.onload = function () {
+        var vm = new Vue({
+          el: "#app",
+          store, // 3.将vuex 创建的 store 挂载到 VM 实例上，只要挂载到了vm 上，任何组件都能使用 store 来存取数据
+          data: {},
+          methods: {},
+        });
+      };
+
+      //第四步.组件注册
+      Vue.component("amount", {
+        template: "#amount",
+      });
+      Vue.component("counter", {
+        template: "#counter",
+        data() {
+          return {};
+        },
+        methods: {
+          add() {
+            // 千万不要这么用，不符合 vuex 的设计理念
+            // this.$store.state.count++;
+            //如果组件1想要调用mutations中的方法,只能使用this.$store.commit("方法名");
+            store.commit("increment");
+          },
+          remove() {
+            store.commit("subtract", {
+              val: 2,
+            });
+          },
+        },
+      });
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <amount></amount>
+      <counter></counter>
+    </div>
+
+    <template id="amount">
+      <div style="background-color: lightblue;">
+        <!-- 在组件中访问store中的数据 -->
+        <!-- <h3>{{ $store.state.count }}</h3> -->
+        <!-- 在组件中使用$store.getters.fun()访问数据 -->
+        <h3>{{ $store.getters.optCount }}</h3>
+      </div>
+    </template>
+
+    <template id="counter">
+      <div style="background-color: lightcoral;">
+        <input type="button" value="减少" @click="remove" />
+        <input type="button" value="增加" @click="add" />
+        <br />
+        <input type="text" v-model="$store.state.count" />
+      </div>
+    </template>
+  </body>
+</html>

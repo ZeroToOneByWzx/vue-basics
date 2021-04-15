@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style>
+		.aa {
+			color: red;
+			font-size: 20px;
+		}
+
+		.cc {
+			background-color: cadetblue;
+		}
+
+		.red {
+			color: red;
+		}
+
+		.size {
+			font-size: 20px;
+		}
+
+		.back {
+			background-color: green;
+		}
+
+		.default {
+			font-size: 14px;
+			line-height: 24px;
+			height: 24px;
+		}
+
+		.active {
+			background: green;
+			color: white;
+		}
+
+		.italic {
+			font-style: italic;
+		}
+
+		.base {
+			width: 100px;
+			height: 100px;
+		} 
+		
+		.text-danger {
+			background: red;
+		}
+	</style>
+	<body>
+		<div id="app">
+			<!-- 1.行内样式,直接用style指定样式,和传统的html一样。vue不建议写行内样式,会打破mvvm思想,耦合性变高 -->
+			<div style="color: red;">我是第1个div</div>
+			<!-- 2.用class、id指定,在style中编写样式。推荐 -->
+			<div class="red">我是第2个div</div>
+			<!-- 3.使用v-bind制定一个数组,数组是class数组 -->
+			<!-- 不可以,Vue的属性绑定时不能直接用css样式 -->
+			<!-- <p :class="red">测试</p> -->
+			<div :class="['red', 'size']">我是第3个div</div>
+			<p :class="['aa','cc']">测试</p>
+			<p :class="[bb,dd]">测试</p>
+			<!-- 4.使用三元运算符 -->
+			<div :class="flag?'size':'red'">我是第4个div</div>
+			<!-- 5.使用对象来代替三元表达式,提高代码可读性 -->
+			<div :class="{'red': true}">我是第5个div</div>
+			<!-- 6.通过绑定data中数据来控制style -->
+			<div :class="classObj">我是第6个div</div>
+			<!-- 2和6用的最多。2就是经典的css写法,耦合性也很低。6是基于vue的v-bind的写法,可以动态的改变样式 -->
+			<button @click="changeStyle">改变样式</button>
+
+
+
+			<div :class="['red', 'default']">待我长发及腰，东风笑别菡涛。参商一面将报，百里关山人笑。</div>
+			<!-- 在数组中使用三元表达式 -->
+			<div :class="['default', isActive?'active':'']">凛冬月光妖娆，似媚故国人廖。连里塞外相邀，重阳茱萸早消。 </div>
+			<!-- 在数组中使用 对象来代替三元表达式，提高代码的可读性 -->
+			<div :class="['default', 'italic', {'active':isActive} ]">待我长发及腰，北方佳丽可好。似曾相识含苞，风花雪月明了。 </div>
+			<div :class="{default:true, italic:true, active:true}">心有茂霜无慌，南柯一梦黄粱。相得益彰君郎，红灯澜烛入帐。 </div>
+			<div :style="{color: 'blue', 'font-size': '24px'}">若我会见到你，事隔经年。我如何贺你，以眼泪，以沉默。</div>
+			<div :style="styleObj">最美的爱情，不是天荒，也不是地老，只是永远在一起。</div>
+			<div :style="[styleBase, styleOrange]">曾经沧海难为水，除却巫山不是云</div>
+
+
+			<div :class="classObject"></div>
+		</div>
+
+		<script>
+			var vue = new Vue({
+				el: '#app',
+				data: {
+					bb: 'aa',
+					dd: 'cc',
+					flag: true,
+					isActive: true,
+					classObj: {
+						'red': true,
+						'size': true,
+						'back': true
+					},
+					styleObj: {
+						color: 'green',
+						'font-size': '18px'
+					},
+					styleBase: {
+						'font-size': '18px'
+					},
+					styleOrange: {
+						color: 'orange',
+						background: '#000000'
+					},
+					error: {
+						value: true,
+						type: 'fatal'
+					}
+				},
+				methods: {
+					changeStyle() {
+						this.classObj.red = !this.classObj.red
+					}
+				},
+				computed: {
+					classObject() {
+						return {
+							base: true,
+							active: this.isActive && !this.error.value,
+							'text-danger': this.error.value && this.error.type === 'fatal'
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

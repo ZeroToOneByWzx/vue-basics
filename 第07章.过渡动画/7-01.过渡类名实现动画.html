@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动画</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				var vm = new Vue({
+					el: '#itany',
+					data: {
+						flag: false//控制隐藏显示,ture：显示,false：隐藏
+					},
+					methods: {
+						beforeEnter(el) {
+							// alert('动画进入之前');
+						},
+						enter() {
+							// alert('动画进入');
+						},
+						afterEnter(el) {
+							// alert('动画进入之后');
+							el.style.background = 'blue';
+						},
+						beforeLeave() {
+							// alert('动画即将之前');
+						},
+						leave() {
+							// alert('动画离开');
+						},
+						afterLeave(el) {
+							// alert('动画离开之后');
+							el.style.background = 'red';
+						}
+					}
+				});
+			}
+		</script>
+		<style>
+			p {
+				width: 300px;
+				height: 300px;
+				background-color: red;
+			}
+			 
+			/* v-enter【这是一个时间点】是进入之前,元素的起始状态,此时还没有开始进入 */
+			/* v-leave-to 【这是一个时间点】 是动画离开之后,离开的终止状态,此时,元素动画已经结束了*/
+			/* 定义进入和离开时候的过渡状态 */
+			.v-enter,
+			.v-leave-to {
+				opacity: 0;
+				transform: translatex(150px);
+			}
+			
+			/* v-enter-active 【入场动画的时间段】 */
+			/* v-leave-active 【离场动画的时间段】 */
+			/* 定义进入过渡的开始状态和离开过渡的结束状态 */
+			.v-enter-active,
+			.v-leave-active {
+				transition: all 0.8s ease;
+			}
+			
+			/* 定义进入过渡的开始状态和离开过渡的结束状态 */
+			.fade1-enter,
+			.fade1-leave-to {
+				opacity: 0;
+				transform: translateX(100px);
+			}
+			
+			/* 定义进入和离开时候的过渡状态 */
+			.fade1-enter-active,
+			.fade1-leave-active {
+				transition: all 0.2s ease;
+				position: absolute;
+			}
+			 
+
+			.fade2-enter-active,
+			.fade2-leave-active {
+				transition: all 3s ease;
+			}
+			.fade2-enter-active {
+				opacity: 1;
+				width: 300px;
+				height: 300px;
+			} 
+			.fade2-leave-active {
+				opacity: 0;
+				width: 50px;
+				height: 50px;
+			}
+			/* .fade2-enter需要放在.fade2-enter-active的后面 */
+			.fade2-enter {
+				opacity: 0;
+				width: 100px;
+				height: 100px;
+			} 
+		</style>
+	</head>
+	<body>
+		<div id="itany">
+			<button @click="flag=!flag">点我</button> 
+			<!-- 使用 transition 元素,把需要被动画控制的元素,包裹起来 -->
+			<transition>
+				<div v-if="flag"> 你见,或者不见我,我就在那里,不悲不喜</div>
+			</transition> 
+			<transition name="fade1">
+				<div v-if="flag"> 你念,或者不念我,情就在那里,不来不去 </div>
+			</transition>
+			 
+			<transition name="fade2" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" @before-leave="beforeLeave"
+			 @leave="leave" @after-leave="afterLeave">
+				<p v-show="flag">Vue</p>
+			</transition>
+			
+		</div>
+	</body>
+</html>

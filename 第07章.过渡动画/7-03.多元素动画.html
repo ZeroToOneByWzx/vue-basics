@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>多元素动画</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/animate.css" />
+		<style>
+			p {
+				width: 100px;
+				height: 100px;
+				background-color: red;
+				margin: 20px auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="itany">
+			<button @click="flag=!flag">点我</button>
+			<!-- 多元素动画必须使用transition-group 而且要指定唯一的key-->
+			<transition-group enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight">
+				<p v-show="flag" :key="1">itany</p>
+				<p v-show="flag" :key="2">网博</p>
+			</transition-group>
+		</div>
+
+		<script>
+			var vm = new Vue({
+				el: '#itany',
+				data: {
+					flag: false
+				}
+			});
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>多个Vue实例</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="vue-app-one">
+      <h2>{{title}}</h2>
+      <h3>{{great}}</h3>
+    </div>
+    <hr />
+    <div id="vue-app-two">
+      <h2>{{title}}</h2>
+      <h3>{{great}}</h3>
+      <button @click="changeAppOneTitle">change app one title</button>
+    </div>
+
+    <script type="text/javascript">
+      const one = new Vue({
+        el: "#vue-app-one",
+        data: {
+          title: "this is app one",
+        },
+        computed: {
+          great() {
+            return "Hello One";
+          },
+        },
+      });
+
+      const two = new Vue({
+        el: "#vue-app-two",
+        data: {
+          title: "this is app two",
+        },
+        methods: {
+          changeAppOneTitle() {
+            one.title = "change One Title";
+          },
+        },
+        computed: {
+          great() {
+            return "Hello Two";
+          },
+        },
+      });
+      two.title = "change Two Title";
+    </script>
+  </body>
+</html>

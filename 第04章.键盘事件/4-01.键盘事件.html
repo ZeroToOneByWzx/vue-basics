@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>键盘事件</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			// 全部的按键别名：
+			// .enter
+			// .tab
+			// .delete (捕获 "删除" 和 "退格" 键)
+			// .esc
+			// .space
+			// .up
+			// .down
+			// .left
+			// .right
+			// .ctrl
+			// .alt
+			// .shift
+			// .meta
+			
+			// 自定义键位别名
+			Vue.config.keyCodes = {
+				a: 65,
+				f1: 112
+			}
+			Vue.config.keyCodes.f2 = 113; //F2键
+			window.onload = function() {
+				let vm = new Vue({
+					el: '#itany',
+					methods: {
+						show(e) {
+							console.log(e.keyCode);
+							if (e.keyCode == 13) {
+								console.log('您按了回车');
+							}
+						},
+						print() {
+							// console.log('您按了回车');
+							// console.log('您按了方向键上');
+							console.log('测试');
+						},
+						submit() {
+							console.log("点击提交");
+						}
+					}
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="itany">
+			<!-- 键盘事件:@keydown、@keypress、@keyup -->
+			用户名:<input type="text" @keydown="show($event)" />
+
+			<!-- 简化案件的判断 -->
+			<!-- 用户名:<input type="text" @keydown.13="print" /> -->
+			<!-- 用户名:<input type="text" @keydown.enter="print" /> -->
+			<!-- 默认没有@keydown.a/b/c...事件，可以自定义键盘事件，也称为自定义键码或自定义键位别名 -->
+			用户名:<input type="text" @keydown.a="print" />
+ 
+			<!-- 事件修饰符 -->
+			<button type="button" @click.once="print">只触发一次(点击事件只能执行一次,二次点击都没有效果)</button>
+			<hr >
+			<input v-on:keyup.enter="submit" />
+		</div>
+	</body>
+</html>

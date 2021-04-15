@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>属性绑定和属性的简写</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				let vm = new Vue({
+					el: '#itany',
+					data: {
+						url: 'https://www.baidu.com/img/dong_54209c0ff3da32eecc31f340c08a18f6.gif',
+						w: '200px',
+						h: '100px',
+						name: "测试",
+						msg: '我是一个按钮'
+					}
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="itany">
+			<!-- 1.0是可以这样写的 但是2.0不可以了 -->
+			<!-- <img src="{{url}}" > -->
+
+			<!--
+			  v-bind: 字面意思是绑定.是Vue中提供的用户绑定属性的指令.v-bind: 可以缩写成: 
+			  v-bind可以出现在任何地方.
+			    每个html标签都有一个属性,直接写属性时,传入的是文本
+			    加上v-bind时,传入的是vue实例中的data
+			-->
+
+			<!-- 2.0是使用v-bind:访问vue中的数据,不需要使用{{}} -->
+			<!-- <img v-bind:111111="url" /> -->
+			<!-- 属性的绑定都可以简写成 : -->
+			<img :src="url" :width="w" :height="h">
+			<p><input type="text" v-bind:value="name"></input></p>
+			<button :title="msg">这是一个按钮</button>
+		</div>
+	</body>
+</html>

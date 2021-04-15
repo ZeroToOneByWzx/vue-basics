@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监视数据的变化</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <div id="itany">
+        <input type="text" v-model="name">
+        <h3>{{name}}</h3>
+        <hr>
+
+        <input type="text" v-model="age">
+        <h3>{{age}}</h3>
+        <hr>
+
+        <input type="text" v-model="user.name">
+        <h3>{{user.name}}</h3>
+    </div>
+
+    <script>
+        //watch是会消耗性能 避免少用
+        var vm = new Vue({
+            el: '#itany',
+            data: {
+                name: 'tom',
+                age: 23,
+                user: {
+                    id: 1001,
+                    name: 'alice'
+                }
+            },
+            watch: { //方式2：使用vue实例提供的watch选项
+                age: (newValue, oldValue) => {
+                    console.log('age被修改啦,原值：' + oldValue + ',新值：' + newValue);
+                },
+                user: {
+                    deep: true, //对象需要开启深度监视,当对象中的属性发生变化时才会进行监视
+                    // 深度监视要handler方法(固定方法)
+                    handler: (newValue, oldValue) => {//这是为了能触发
+                        //但是原值跟新值都是一样的 因为是引用类型 指向是地址空间
+                        console.log('user被修改啦,原值：' + oldValue.name + ',新值：' + newValue.name);
+                    } 
+                }
+            }
+        });
+
+        //方式1：使用vue实例提供的$watch()方法
+        vm.$watch('name', function(newValue, oldValue) {
+            console.log('name被修改啦,原值：' + oldValue + ',新值：' + newValue);
+        });
+        
+        //深度监视对象是同理的方法后面提供第二个参数true
+        // vm.$watch('user', function(newValue, oldValue) {
+        // 	console.log('name被修改啦,原值：' + oldValue.name + ',新值：' + newValue.name);
+        // },true);
+    </script>
+</body>
+</html>

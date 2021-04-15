@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>组件切换方式二(动态组件)</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <style>
+    /* v-enter 这是个时间点，是进入之前，元素的起始状态，此时还没有进入 */
+    /* v-leave-to 这是个时间点，是动画离开之后，元素的终止状态，此时，元素 动画已经结束了 */
+    .component-enter,
+    .component-leave-to {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+
+    /* v-enter-active 入场动画的时间段 */
+    /* v-leave-active 离场动画的时间段 */
+    .component-enter-active,
+    .component-leave-active {
+      transition: all 0.5s ease;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <button @click="componentName='login'">登录</button>
+      <button @click="componentName='register'">注册</button>
+
+      <!-- transition提供了mode属性，设置组件切换时的模式 -->
+      <transition name="component" mode="out-in">
+        <!-- Vue提供了component，来展示对应名称的组件。 这是个占位符，使用:is来指定要展示的组件名称-->
+        <!-- 使用keep-alive组件缓存非活动组件,可以保留状态,避免重新渲染,默认每次都会销毁非活动组件并重新创建 -->
+        <keep-alive>
+          <component :is="componentName"></component>
+        </keep-alive>
+      </transition>
+
+      <hr />
+
+      <h3>:is标签的简单用法</h3>
+      <component v-bind:is="who"></component>
+      <button @click="changeComponent">changeComponent</button>
+    </div>
+
+    <script>
+      Vue.component("login", {
+        template: "<p>我是登录组件:{{x}}</p>",
+        data() {
+          return {
+            x: Math.random(),
+          };
+        },
+      });
+      Vue.component("register", {
+        template: "<p>我是注册组件:{{y}}</p>",
+        data() {
+          return {
+            y: Math.random(),
+          };
+        },
+      });
+
+      var componentA = {
+        template: `<div style="color:red;">I'm componentA</div>`,
+      };
+      var componentB = {
+        template: `<div style="color:green;">I'm componentB</div>`,
+      };
+      var componentC = {
+        template: `<div style="color:pink;">I'm componentC</div>`,
+      };
+
+      var vue = new Vue({
+        el: "#app",
+        data: {
+          componentName: "login",
+          who: "componentA",
+        },
+        components: {
+          componentA: componentA,
+          componentB: componentB,
+          componentC: componentC,
+        },
+        methods: {
+          changeComponent() {
+            if (this.who == "componentA") {
+              this.who = "componentB";
+            } else if (this.who == "componentB") {
+              this.who = "componentC";
+            } else {
+              this.who = "componentA";
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

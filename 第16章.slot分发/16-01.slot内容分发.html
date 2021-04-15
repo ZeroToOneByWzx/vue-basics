@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>slot内容分发</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      window.onload = function () {
+        var vm = new Vue({
+          el: "#itany",
+          components: {
+            "my-hello": {
+              template: "#hello",
+            },
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="itany">
+      <!-- <my-hello>wbs17022</my-hello> -->
+
+      <my-hello>
+        <ul slot="s1">
+          <!-- <ul> -->
+          <li>aaa</li>
+          <li>bbb</li>
+          <li>ccc</li>
+        </ul>
+        <ol slot="s2">
+          <!-- <ol> -->
+          <li>111</li>
+          <li>222</li>
+          <li>333</li>
+        </ol>
+      </my-hello>
+    </div>
+
+    <template id="hello">
+      <div>
+        <slot name="s2"></slot>
+        <h3>welcome to itany</h3>
+        <slot name="s1"></slot>
+        <slot>my-hello如果没有内容，则显示该内容[注意:内容被被分发了 就像相当没有内容了ui与ol ui与ol不添加slot就相当有内容了 不显示这句]</slot>
+        <!-- <slot></slot> -->
+      </div>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <title>组件中的data和method</title>
+  </head>
+  <body>
+    <div id="app">
+      <my-component></my-component>
+    </div>
+    <template id="temp1">
+      <div>
+        <div>{{count}}</div>
+        <button @click="add">点我</button>
+      </div>
+    </template>
+
+    <script>
+      // 3.使用template
+      Vue.component("myComponent", {
+        template: "#temp1",
+        // Vue 组件中的data必须是一个方法，并且返回一个对象
+        // 组件的存在是为了复用性，定义了一个组件后，可能会有多个地方使用到该组件。
+        // 如果按照data: {}的写法，多个组件会复用同一个data，降低组件的复用性，而定义为function则不会。
+        data() {
+          return {
+            count: 0,
+          };
+        },
+        methods: {
+          add() {
+            this.count++;
+          },
+        },
+      });
+
+      var vue = new Vue({
+        el: "#app",
+        data: {},
+      });
+    </script>
+  </body>
+</html>

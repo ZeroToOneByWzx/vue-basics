@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				let vm = new Vue({
+					el: '#itany',
+					data: {
+						number: 0
+					},
+					methods: {
+						//自动增加1
+						autoAdd() {
+							// 在通过 v-on 注册的方法中我们可以直接通过 this 来访问 data 中的数据成员
+							this.number++;
+						},
+						//自动减1
+						autoSubtract: function() {
+							if (this.number <= 0) return; 
+							this.number--;
+						}
+
+					}
+				});
+			};
+		</script>
+	</head>
+	<body>
+		<div id="itany">
+			<button type="button" @click="autoSubtract">-</button>
+			<input type="text" v-model="number" />
+			<button type="button" @click="autoAdd">+</button>
+		</div>
+	</body>
+</html>

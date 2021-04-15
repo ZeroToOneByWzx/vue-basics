@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>过滤器</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			// 定义一个全局过滤器：四舍五入，保留消小数点后n位
+			Vue.filter('toFixed', function(data, val) {
+				if (isNaN(data)) {
+					return 0;
+				}
+				const p1 = Math.pow(10, val + 1);
+				const p2 = Math.pow(10, val);
+				return Math.round(data * p1 / 10) / p2;
+			});
+			// Vue.filter('toFixed', (data, val) => {
+			// 	if (isNaN(val)) {
+			// 		return 0;
+			// 	}
+			// 	const p1 = Math.pow(10, val + 1);
+			// 	const p2 = Math.pow(10, val);
+			// 	return Math.round(data * p1 / 10) / p2;
+			// });
+			window.onload = function() {
+				let vm = new Vue({
+					el: '#app',
+					data: {
+						dt: new Date(),
+						val: 3.14159
+					},
+					filters: { // 私有局部过滤器，只能在当前VM对象所控制的View区域进行使用
+						// dataFormat(input, pattern = "") { 
+						dataFormat: (input, pattern = "") => {//在参数列表中 通过 pattern="" 来指定形参默认值，防止报错
+							var dt = new Date(input);
+							// 获取年月日
+							var y = dt.getFullYear();
+							var m = (dt.getMonth() + 1).toString().padStart(2, '0');
+							var d = dt.getDate().toString().padStart(2, '0');
+							// 如果传递进来的字符串类型，转为小写之后，等于 yyyy-mm-dd，那么就返回 年-月-日
+							// 否则，就返回  年-月-日 时：分：秒
+							if (pattern.toLowerCase() === 'yyyy-mm-dd') {
+								return `${y}-${m}-${d}`;
+							} else {
+								// 获取时分秒
+								var hh = dt.getHours().toString().padStart(2, '0');
+								var mm = dt.getMinutes().toString().padStart(2, '0');
+								var ss = dt.getSeconds().toString().padStart(2, '0');
+								return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+							}
+						}
+					}
+				});
+			};
+		</script>
+	</head>
+	<body>
+		<div id="app">
+			<div>{{val|toFixed(3)}}</div>
+			<div> {{dt | dataFormat('yyyy-mm-dd')}}</div>
+		</div>
+	</body>
+</html>

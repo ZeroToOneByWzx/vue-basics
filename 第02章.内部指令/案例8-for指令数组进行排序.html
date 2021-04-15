@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <li v-for="(item,index) in sortItems">{{item}} {{index}}</li>
+      </ul>
+
+      <ul>
+        <li v-for="student in sortStudents">{{student.name}} - {{student.age}}</li>
+      </ul>
+
+      <!-- 模板中使用 v-for： 遍历对象 -->
+      <!-- <template v-for="(user,index) in students">
+        <div v-for="(val,key,index1) in user">
+          <p>{{index1}}:{{key}}-{{val}}</p>
+        </div>
+      </template> -->
+    </div>
+
+    <script>
+      var vue = new Vue({
+        el: "#app",
+        data: {
+          items: [12, 4, 5, 34, 2, 11, 12],
+          students: [
+            { name: "jspang", age: 32 },
+            { name: "Panda", age: 30 },
+            { name: "PanPaN", age: 21 },
+            { name: "King", age: 45 },
+          ],
+        },
+        computed: {
+          sortItems() {
+            // return this.items.sort(); //结果：11 12 12 2 34 4 5
+            return this.items.sort(sortNumber);
+          },
+          sortStudents() {
+            return sortByKey(this.students, "age");
+          },
+        },
+      });
+      //普通数组的排序
+      function sortNumber(a, b) {
+        return a - b;
+      }
+      //数组对象方法排序:
+      function sortByKey(array, key) {
+        return array.sort(function (a, b) {
+          var x = a[key];
+          var y = b[key];
+          return x < y ? -1 : x > y ? 1 : 0;
+        });
+      }
+    </script>
+  </body>
+</html>

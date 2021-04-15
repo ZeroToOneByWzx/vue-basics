@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>计算属性</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="itany">
+      <!--1.基本用法-->
+      <!-- <h2>{{msg}}</h2> -->
+      <!-- <h2>{{msg2}}</h2> -->
+
+      <!-- 对数据处理再显示 反转字符串-->
+      <!-- <h2>{{msg.split(' ').reverse().join(' ')}}</h2> -->
+      <!-- <h2>{{reverseMsg}}</h2> -->
+      <button @click="change">
+        修改msg的值msg2的值也会改变[计算属性是基于它的依赖进行更新的]
+      </button>
+
+      <!-- 2.计算属性 vs 方法-->
+      <!-- 使用methods来替代computed,效果上两个都是一样的,
+				但是computed是基于它的依赖缓存,只有相关依赖发生改变时才会重新取值。而使用 methods,在重新渲染的时候,函数总会重新调用执行。
+				可以说使用computed性能会更好,但是如果你不希望缓存,你可以使用methods属性-->
+      <h2>{{num1}}</h2>
+      <h2>{{num2}}</h2>
+
+      <!-- 通过普通方法来改变num1和num2 -->
+      <h2>{{getNum2()}}</h2>
+      <button onclick="fn()">测试</button>
+
+      <!--3.get和set-->
+      <h2>{{num2}}</h2>
+      <button @click="change2">修改计算属性</button>
+    </div>
+    <!-- 	
+			计算属性也是用来存储数据,但具有以下几个特点：
+				a.数据可以进行逻辑处理操作
+				b.对计算属性中的数据进行监视 
+		-->
+    <script type="text/javascript">
+      var vm = new Vue({
+        el: "#itany",
+        data: {
+          msg: "welcome to itany",
+          num1: 8,
+        },
+        computed: {
+          msg2: function () {
+            //该函数必须有返回值,用来获取属性,称为get函数
+            return "欢迎来到Vue";
+          },
+          reverseMsg: function () {
+            //可以包含逻辑处理操作,同时reverseMsg依赖于msg[用空格分成数组 再用reverse调换数组顺序]
+            // 计算属性是基于它的依赖进行更新的,自动跟随改变
+            return this.msg.split(" ").reverse().join(" ");
+          },
+          num2: {
+            get: function () {
+              console.log("num2:" + new Date());
+              return this.num1 - 1;
+            },
+            set: function (val) {
+              console.log("修改num2值" + val);
+              // this.num2 = val;
+              this.num1 = val;
+            },
+          },
+        },
+        methods: {
+          change() {
+            // this.msg = "i love you";
+            this.num1 = 666;
+          },
+          getNum2() {
+            console.log("getNum2:" + new Date());
+            return this.num1 - 1;
+          },
+          change2() {
+            this.num2 = 111;
+          },
+        },
+      });
+
+      // 多次调用计算属性和普通方法来证明区别
+      // a.计算属性是基于它的依赖进行更新的,只有在相关依赖发生改变时才能更新变化
+      // b.计算属性是缓存的,只要相关依赖没有改变,多次访问计算属性得到的值是之前缓存的计算结果,不会多次执行
+      function fn() {
+        setInterval(function () {
+          console.log(vm.num2); //每个一秒不停的执行num2从而调用num1,但是num1的值并没有改变,因为计算属性是有缓存的 则不会再调用
+          // console.log(vm.getNum2()); //每个一秒不停的执行普通方法从而调用num1,即使num1的值并没有改变,但还是会再执行
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>

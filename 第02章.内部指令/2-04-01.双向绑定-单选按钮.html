@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>单选按钮的双向绑定</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      window.onload = function () {
+        new Vue({
+          el: "#app",
+          data: {
+            picked: "Runoob",
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 绑定原理 radio勾选时 v-model="picked"中的picked会变成ture 不勾选则为false 即v-model会将选择状态赋值给picked-->
+      <input type="radio" id="runoob" value="Runoob" v-model="picked" />
+      <label for="runoob">Runoob</label>
+      <br />
+      <input type="radio" id="google" value="Google" v-model="picked" />
+      <label for="google">Google</label>
+      <br />
+      <span>选中值为: {{ picked }}</span>
+    </div>
+  </body>
+</html>

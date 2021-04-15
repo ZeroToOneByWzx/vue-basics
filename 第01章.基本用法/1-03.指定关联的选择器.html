@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>指定关联的选择器</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      window.onload = function () {
+        var vm = new Vue({
+          // el:'body',在2.0中不允许将vue实例挂载到<html>,<body>元素,在1.0中是可以的
+          // el: '#itany',
+          // el: '.itany',
+          el: "div",
+          data: {
+            name: "tom",
+            age: 21,
+            flag: true,
+            nums: [12, 4, 23, 5], //数组
+            user: {
+              //对象
+              id: 9527,
+              name: "唐伯虎",
+            },
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <!-- <div id="itany"> -->
+    <!-- <div class="itany"> -->
+    <div>
+      用户名:<input type="text" v-model="name" />
+      <br />
+      {{name}}
+      <br />
+      {{age}}
+      <br />
+      {{flag}}
+      <br />
+      {{nums}}
+      <br />
+      {{user}}
+    </div>
+  </body>
+</html>

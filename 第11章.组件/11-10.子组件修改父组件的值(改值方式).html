@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>子组件修改父组件的值(改值方式)</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+    <template id="hello">
+      <div>
+        <h3>子组件:{{name}}</h3>
+        <h3>子组件:{{user.age}}</h3>
+        <button @click="change1">修改数据name</button>
+        <button @click="change2">修改数据user.age</button>
+      </div>
+    </template>
+
+    <script type="text/javascript">
+      window.onload = function () {
+        var vm = new Vue({
+          //父组件
+          el: "#itany",
+          data: {
+            name: "tom",
+            user: {
+              name: "zhangsan",
+              age: 24,
+            },
+          },
+          components: {
+            "my-hello": {
+              //子组件
+              template: "#hello",
+              props: ["name", "user"],
+              methods: {
+                change1() {
+                  this.$emit("update:name", "alice"); //方式2：a.使用.sync，需要显式地触发一个更新事件
+                },
+                change2() {
+                  this.user.age = 18;
+                },
+              },
+            },
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="itany">
+      <h2>父组件:{{name}}</h2>
+      <input type="text" v-model="name" />
+      <h2>父组件:{{user.age}}</h2>
+      <input type="text" v-model="user.age" />
+      <hr />
+
+      <my-hello :name.sync="name" :user="user"></my-hello>
+    </div>
+  </body>
+</html>

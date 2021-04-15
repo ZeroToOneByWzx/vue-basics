@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	</head>
+	<body>
+		<!-- http://jsonplaceholder.typicode.com/todos -->
+		<h1>Fetch请求</h1>
+		<div id="itany">
+			<!-- {{todos}} -->
+			<form @submit.prevent="onSubmit">
+				<input type="text" v-model="todo.title" />
+				<input type="checkbox" v-model="todo.completed" />
+				<input type="submit" value="提交" />
+			</form>
+
+			<ul>
+				<li v-for="todo in todos">
+					<h1>{{todo.title}}</h1>
+					<h2 v-if="todo.completed">{{todo.completed}}</h2>
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el: '#itany',
+				data: {
+					todos: [],
+					todo: {
+						title: "",
+						completed: false
+					}
+				},
+				methods: {
+					onSubmit() {
+						//axios post 
+						axios.post("http://jsonplaceholder.typicode.com/todos", this.todo).then(res => {
+							// console.log(res.data);
+							this.todos.unshift(res.data);
+						});
+					}
+				},
+				mounted() {
+					axios.get("http://jsonplaceholder.typicode.com/todos").then(res => {
+						// console.log(res);
+						this.todos = res.data;
+					});
+					//获取第一条
+					// axios.get("http://jsonplaceholder.typicode.com/todos/1").then(res=>{
+					// 	console.log(res); 
+					// });
+				}
+			});
+		</script>
+	</body>
+</html>

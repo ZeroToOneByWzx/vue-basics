@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>百度搜索列表</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				let vm = new Vue({
+					el: '#itany',
+					data: {
+						keyword: '',
+						myData: [],
+						now: -1 //当前选中项的索引
+					},
+					methods: {
+						getData(e) {
+							//如果按方向键上、下,则不发请求
+							if (e.keyCode == 38 || e.keyCode == 40) return;
+
+							this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su', {
+								params: {
+									wd: this.keyword
+								},
+								jsonp: 'cb' //百度使用的jsonp参数名为cb,所以需要修改
+							}).then(resp => {
+								// console.log(resp.data);
+								this.myData = resp.data.s;
+							});
+						},
+						changeUp() {
+							this.now--;
+							console.log(this.now);
+							this.keyword = this.myData[this.now];
+							if (this.now == -2) {
+								this.now = this.myData.length - 1;
+							}
+						},
+						changeDown() {
+							this.now++;
+							console.log(this.now);
+							this.keyword = this.myData[this.now];
+							if (this.now == this.myData.length) {
+								this.now = -1;
+							}
+						}
+
+
+					}
+				});
+			};
+		</script>
+		<style>
+			.current{
+				background-color:#ccc;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="itany">
+			<!-- keyup：当用户释放键盘上的按键时触发。 -->
+			<!-- keydown：当用户按下键盘上的任意按键时触发,如果按住不放,会重复触发此事件。 -->
+			<!-- @keyup.down 代表按下方向键下时 执行的方法 -->
+			<!-- @keydown.up.prevent 代表按下方向键上时 光标向上移动的默认行为除掉 -->
+			<input type="text" v-model="keyword" @keyup="getData($event)" @keydown.up.prevent="changeUp" @keyup.down="changeDown"  />
+			<ul>
+				<li v-for="(value,index) in myData" :class="{current:index==now}">
+					{{value}}
+				</li>
+			</ul>
+			<p v-show="myData.length==0">暂无数据....</p>
+		</div>
+	</body>
+</html>

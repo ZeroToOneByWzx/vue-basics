@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+	<body>
+		<div id="app">
+			<h1>ref</h1>
+			<label>姓名</label>
+			<input type="text" ref="rname" @keyup="getName" />
+			<span>{{name}}</span>
+
+			<label>年龄</label>
+			<input type="text" ref="rage" @keyup="getAge" />
+			<span>{{age}}</span>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					name: "zero",
+					age: 18
+				},
+				methods: {
+					getName() {
+						console.log(this.$refs.rname.value);
+						this.name = this.$refs.rname.value;
+					},
+					getAge() {
+						this.age = this.$refs.rage.value;
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

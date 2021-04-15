@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>计算测试</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      window.onload = function () {
+        var vm = new Vue({
+          el: "#itany",
+          data: {
+            a: 0,
+            b: 0,
+            age: 32,
+          },
+          methods: {
+            addToA() {
+              console.log("addToA");
+              return this.a + this.age;
+            },
+            addToB() {
+              console.log("addToB");
+              return this.b + this.age;
+            },
+          },
+          computed: {
+            //计算属性的方法必须有return
+            addComToA() {
+              console.log("addComToA");
+              return this.a + this.age;
+            },
+            addComToB() {
+              console.log("addComToB");
+              return this.b + this.age;
+            },
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="itany">
+      <button @click="a++">Add to A</button>
+      <button @click="b++">Add to B</button>
+      <p>A-{{a}}</p>
+      <p>B-{{b}}</p>
+
+      <!-- methods -->
+      <p>Age+A={{addToA()}}</p>
+      <p>Age+B={{addToB()}}</p>
+
+      <!-- computed -->
+      <p>Age+A={{addComToA}}</p>
+      <p>Age+B={{addComToB}}</p>
+    </div>
+  </body>
+</html>

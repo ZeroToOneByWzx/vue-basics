@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>父组件向子组件传值</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+    <template id="hello">
+      <div>
+        <!--组件无法直接使用到父组件中的data -->
+        <h3>父组件的原始值:{{parentName}}</h3>
+        <!-- 这是父组件的原来值 是不允许改的 改就报错 -->
+        <h3>父组件的复制值:{{username}}</h3>
+        <!-- 父组件的name再改了 这个值不是变了 因为没有自动监视 -->
+        <button @click="change">修改数据</button>
+      </div>
+    </template>
+
+    <script type="text/javascript">
+      window.onload = function () {
+        var vm = new Vue({
+          //父组件
+          el: "#itany",
+          data: {
+            name: "tom",
+          },
+          components: {
+            "my-hello": {
+              //子组件
+              template: "#hello",
+              props: ["parentName"], // props中的数据，都是通过父组件传递给子组件的。 props中的数据都是只读的，无法去赋值
+              data() {
+                return {
+                  // parentName: this.parentName, //这是父组件的原来值 是不允许改的 改就报错
+                  username: this.parentName, //方式1：将数据存入另一个变量中再操作,username没有自动监视所以他的值是不会跟随父组件数据变化的
+                };
+              },
+              methods: {
+                change() {
+                  // this.parentName = 'alice' //这是父组件的原来值 是不允许改的 改就报错
+                  this.username = "alice";
+                },
+              },
+            },
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="itany">
+      <h2>父组件:{{name}}</h2>
+      <input type="text" v-model="name" />
+      <hr />
+      <!-- 父组件向子组件传值。属性名称，也需要使用- -->
+      <my-hello :parent-name="name"></my-hello>
+    </div>
+  </body>
+</html>

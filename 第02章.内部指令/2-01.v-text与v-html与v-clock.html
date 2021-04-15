@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v-text,v-html,v-clock指令</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      window.onload = function () {
+        var vue = new Vue({
+          el: "#app",
+          data: {
+            msg: "welcome to Vue",
+            msg2: "敌不动，我不动，敌动，我一动不动", //注释掉这句就可以看到v-text的作用
+            msg3: '<a href="http://www.taobao.com">taobao</a>',
+          },
+          created: function () {
+            alert(111);
+          },
+        });
+      };
+    </script>
+  </head>
+  <style type="text/css">
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <!-- v-text指令。会覆盖标签中原有的内容。而占位符（插值表达式）只会替换自己这个占位符,不会把整个元素清空 -->
+      <!-- 当直接用占位符时,会有占位符一闪而过的现象。v-text默认没有一闪而过的现象。实际开发中,应结合实际情况选择使用哪一个 -->
+      <!-- 闪烁问题 注意有些浏览器会不能复现闪烁问题-->
+      <!-- 删除掉这个vue对象【new Vue({});】也可以看到v-text的作用 -->
+      <h3>aaa <span>{{msg}}</span></h3>
+      <h3 v-text="msg"></h3>
+      <h3 v-html="msg"></h3>
+      <h3>aaa <span v-cloak>{{msg}}</span></h3>
+
+      <div>{{msg2}}</div>
+      <div v-text="msg2"></div>
+      <!-- v-text和插值表达式会将data中的数据作为字符串去处理。v-html则会将data作为html标签去渲染 -->
+      <!-- 你好会被msg3替换 -->
+      <div v-html="msg3">你好</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>组件切换方式</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="flag=true">登录</button>
+      <button @click="flag=false">注册</button>
+      <login v-if="flag"></login>
+      <register v-else></register>
+    </div>
+
+    <script>
+      Vue.component("login", {
+        template: "<p>我是登录组件</p>",
+      });
+      Vue.component("register", {
+        template: "<p>我是注册组件</p>",
+      });
+
+      var vue = new Vue({
+        el: "#app",
+        data: {
+          flag: true,
+        },
+      });
+    </script>
+  </body>
+</html>

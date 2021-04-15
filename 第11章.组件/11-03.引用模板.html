@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>引用模板</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+    <template id="myTemplate" type="x-template">
+      <!-- <template>必须有且只有一个根元素 -->
+      <div>
+        <h3>{{msg}}</h3>
+        <ul>
+          <li v-for="value in arr">{{value}}</li>
+        </ul>
+      </div>
+    </template>
+
+    <script type="text/javascript">
+      //全局组件
+      Vue.component("todo-item", {
+        props: ["todoTip"],
+        template: "<li>{{ todoTip.text }}</li>",
+      });
+
+      window.onload = function () {
+        new Vue({
+          el: "#itany",
+          components: {
+            //第一个局部组件
+            "my-hello": {
+              name: "myName", //指定组件的名称，默认为标签名，可以不设置
+              template: "#myTemplate",
+              data() {
+                return {
+                  msg: "欢迎来到Vue",
+                  arr: ["tom", "jack", "mike"],
+                };
+              },
+            },
+            //第二个局部组件
+            panda: {
+              template: `<div style="color:red;">Panda from {{ here }}.</div>`,
+              props: ["here"],
+            },
+          },
+          data: {
+            sites: [
+              {
+                text: "Runoob",
+              },
+              {
+                text: "Google",
+              },
+              {
+                text: "Taobao",
+              },
+            ],
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="itany">
+      <!-- <my-hello></my-hello> -->
+      <!-- 注意不是:here="China"  不是绑定赋值-->
+      <!-- <panda here="China"></panda> -->
+      <hr />
+      <ol>
+        <!-- <todo-item v-for="item in sites" v-bind:todo="item"></todo-item> -->
+        <!-- 我们在写属性时经常会加入’-‘来进行分词，比如：，那这时我们在props里如果写成props:[‘todo-tip’]是错误的，我们必须用小驼峰式写法props:[‘todoTip’]。 -->
+        <todo-item v-for="item in sites" :todo-tip="item"></todo-item>
+      </ol>
+    </div>
+  </body>
+</html>

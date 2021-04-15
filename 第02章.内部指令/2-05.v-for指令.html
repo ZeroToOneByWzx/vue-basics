@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>常用指令</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      window.onload = function () {
+        var vm = new Vue({
+          el: "#itany",
+          data: {
+            arr: [12, 4, 5, 34, 2, 11],
+            user: {
+              id: 9527,
+              name: "唐伯虎",
+              age: 25,
+            },
+            arrs: [12, 4, 5, 34, 2, 11, 12],
+            users: [
+              {
+                id: 9527,
+                name: "唐伯虎",
+                age: 25,
+              },
+              {
+                id: 9120,
+                name: "秋香",
+                age: 21,
+              },
+              {
+                id: 1214,
+                name: "石榴姐",
+                age: 28,
+              },
+            ],
+            userInfo: {
+              username: "张三丰",
+              age: 100,
+            },
+            simpleList: [1, 2, 3, 4, 5, 6],
+            objectList: [
+              {
+                id: 1,
+                name: "张三",
+              },
+              {
+                id: 2,
+                name: "李四",
+              },
+              {
+                id: 3,
+                name: "王五",
+              },
+              {
+                id: 4,
+                name: "赵六",
+              },
+            ],
+            id: "",
+            name: "",
+          },
+          methods: {
+            add() {
+              const obj = {
+                id: this.id,
+                name: this.name,
+              };
+              this.objectList.unshift(obj);
+            },
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="itany">
+      <!-- v-for是vue中的遍历（循环）指令。(item index) in data,item是遍历的每一项名称,index是每一项的索引值 -->
+      <!-- <p v-for="(item, index) in simpleList">索引值：{{index}}---数据：{{item}}</p> -->
+      <!-- <p v-for="(obj, i) in objectList">索引值：{{i}}--id：{{obj.id}}--name：{{obj.name}}</p> -->
+      <!-- <p v-for="(count, index) in 10">这是第{{count}}次循环,索引为{{index}}</p> -->
+
+      <!-- {{arr}} -->
+      <ul>
+        <!-- 普通循环 -->
+        <!-- <li v-for="value in arr">{{value}}</li> -->
+        <!-- <li v-for="value in user">{{value}}</li> -->
+
+        <!-- 键值循环 2.0开始键值是反的 1.0不反-->
+        <!-- <li v-for="(val,key) in arr">{{key}}={{val}}</li> -->
+        <!-- <li v-for="(val,key) in user">{{key}}={{val}}</li> -->
+
+        <!-- 可以直接循环包含重复数据的集合-2.0开始数组是可以包含数据的 1.0不可以-->
+        <!-- 还可以通过指定:key属性绑定唯一key,当更新元素时可重用元素,提高效率,类似于1.0中track-by -->
+        <!-- <li v-for="(value,k) in arrs" :key="k">{{value}}-{{k}}</li> -->
+
+        <!-- 在普通循环的基础上了index -->
+        <!-- <li v-for="(user,index) in users"> -->
+        <!-- {{user}} -->
+        <!-- {{index+1}}:{{user.id}},{{user.name}},{{user.age}} -->
+        <!-- </li> -->
+        <!-- 注意：在遍历对象身上的键值对的时候,除了有 val 、key ,在第三个位置还有一个索引index  -->
+        <!-- <p v-for="(val,keys,index) in userInfo">键是：{{keys}} ,值是：{{ val }} ,索引：{{index}}</p> -->
+        <!-- </li> -->
+      </ul>
+
+      <!-- v-for 迭代整数 -->
+      <!-- <ul>
+        <li v-for="n in 10">{{ n }}</li>
+      </ul> -->
+      <hr />
+      <!-- <div v-for="(user,index) in users">
+        <h3>{{index+1}}-{{user.name}}</h3>
+        <p>age-{{user.age}}</p>
+      </div> -->
+      <hr />
+      <!-- <template v-for="(user,index) in users">
+				<h3>{{index+1}}-{{user.name}}</h3>
+				<p> age-{{user.age}}</p>
+			</template> -->
+      <hr />
+
+      <!-- 模板中使用 v-for： 遍历对象 -->
+      <!-- <template v-for="(user,index) in users">
+				<div v-for="(val,key,index1) in user">
+					<p>{{index1}}:{{key}}-{{val}}</p>
+				</div>
+			</template> -->
+
+      <hr />
+      <div>
+        <input type="text" v-model="id" />
+        <input type="text" v-model="name" />
+        <button @click="add">添加</button>
+      </div>
+      <!-- key是在v-for中表示唯一标识,在任何的v-for中建议都加上key。key一定要保证唯一性 -->
+      <p v-for="item in objectList" :key="item.id">
+        <input type="checkbox" name="" id="" /> {{item.id}} --- {{item.name}}
+      </p>
+    </div>
+  </body>
+</html>

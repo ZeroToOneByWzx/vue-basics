@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>路由基本用法</title>
+		<style type="text/css">
+			/* 	
+			.router-link-active{
+				font-size:20px;
+				color:#ff7300;
+				text-decoration:none;
+			} 
+			*/
+			.active {
+				font-size: 20px;
+				color: #ff7300;
+				text-decoration: none;
+			}
+
+			/* v-enter 这是个时间点，是进入之前，元素的起始状态，此时还没有进入 */
+			/* v-leave-to 这是个时间点，是动画离开之后，元素的终止状态，此时，元素 动画已经结束了 */
+			.component-enter,
+			.component-leave-to {
+				opacity: 0;
+				transform: translateX(50px);
+			}
+
+			/* v-enter-active 入场动画的时间段 */
+			/* v-leave-active 离场动画的时间段 */
+			.component-enter-active,
+			.component-leave-active {
+				transition: all 0.5s ease;
+			}
+		</style>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//1. 定义 (路由) 组件。
+			var Home = {
+				template: "<h3>我是主页</h3>",
+			};
+			//1.使用 Vue.extend 来创建注册组件
+			var News = Vue.extend({
+				template: "<h3>我是新闻</h3>",
+			});
+
+			//2.配置路由(定义路由) 
+			// 每个路由应该映射一个组件。 其中"component" 可以是通过 Vue.extend() 创建的组件构造器，或者，只是一个组件配置对象。
+			// 我们晚点再讨论嵌套路由。
+			const routes = [
+				// routes中定义了路由的规则
+				{
+					path: "/home",
+					component: Home, // 对象中有两个属性：path：表示路由的url，component：表示路由跳转到的组件
+				},
+				{
+					path: "/news",
+					component: News,
+				},
+				{
+					//重定向(首次加载 或者加载页面出错 显示的页面)
+					// redirect就是重定向，访问path时，会被重定向到redirect指定的路由。这里是指路由的重定向，而非请求重定向，和后端的redirect是两码事
+					path: "*",
+					redirect: "/home",
+				},
+			];
+
+			// 3. 创建 router 实例，然后传 `routes` 配置
+			// 当引入了vue-router之后，在window全局对象中，就有了一个VueRouter构造函数
+			// 你还可以传别的配置参数, 不过先这么简单着吧。
+			const router = new VueRouter({ 
+				// routes: [ { path: '*', redirect: '/home' } ],
+				routes, //简写，相当于routes:routes
+				// mode: 'history', //更改模式
+				linkActiveClass: "active", //更新活动链接的class类名
+			});
+
+			// 4. 创建和挂载根实例。
+			// 记得要通过 router 配置参数注入路由，从而让整个应用都有路由功能
+			window.onload = function() {
+				var vm = new Vue({
+					el: "#itany",
+					router, //注入路由
+				});
+			};
+		</script>
+	</head>
+	<body>
+		<div id="itany">
+			<h1>Hello App!</h1>
+			<!-- 使用 router-link 组件来导航(控制组件的切换).  通过传入 `to` 属性指定链接url. -->
+			<!-- <router-link> 默认会被渲染成一个 `<a>` 标签 如果不想被渲染成a标签，可以使用tag属性，指定router-link被渲染成哪种标签-->
+			<router-link to="/home" tag="button">主页</router-link>
+			<router-link to="/news">新闻</router-link>
+
+			<!-- router-view路由出口 -->
+			<!-- 路由匹配到的组件将渲染在这里 用来显示路由内容 -->
+			<!-- 这是个坑，专门作为一个占位符。当路由进行切换的时候，在路由中匹配到对应的组件，就会展示在这个坑里  -->
+			<transition name="component" mode="out-in">
+				<!-- 这是个坑，专门作为一个占位符。当路由进行切换的时候，在路由中匹配到对应的组件，就会展示在这个坑里  -->
+				<router-view></router-view>
+			</transition>
+
+		</div>
+	</body>
+</html>

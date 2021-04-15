@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style>
+		/* v-enter 这是个时间点，是进入之前，元素的起始状态，此时还没有进入 */
+		/* v-leave-to 这是个时间点，是动画离开之后，元素的终止状态，此时，元素 动画已经结束了 */
+		.component-enter,
+		.component-leave-to {
+			opacity: 0;
+			transform: translateX(50px);
+		}
+
+		/* v-enter-active 入场动画的时间段 */
+		/* v-leave-active 离场动画的时间段 */
+		.component-enter-active,
+		.component-leave-active {
+			transition: all 0.5s ease;
+		}
+	</style>
+
+	<body>
+
+		<div id="app">
+			<!-- router-link控制组件的切换。router-link默认会被渲染成a标签 -->
+			<!-- 如果不想被渲染成a标签，可以使用tag属性，指定router-link被渲染成哪种标签 -->
+			<router-link to="/login" tag="button">登录</router-link>
+			<router-link to="/register">注册</router-link>
+			<button @click="toLogin">跳转到登录</button>
+
+			<transition name="component" mode="out-in">
+				<!-- 这是个坑，专门作为一个占位符。当路由进行切换的时候，在路由中匹配到对应的组件，就会展示在这个坑里  -->
+				<router-view></router-view>
+			</transition>
+
+		</div>
+
+		<script>
+			var login = {
+				template: '<p>我是登录组件</p>',
+				created() {
+					console.log(this.$route)
+				}
+			}
+			var register = {
+				template: '<p>我是注册组件</p>'
+			}
+
+			// 当引入了vue-router之后，在window全局对象中，就有了一个VueRouter构造函数
+			let routerObj = new VueRouter({
+				routes: [ // routes中定义了路由的规则
+					{
+						path: '/',
+						redirect: '/login'
+					}, // redirect就是重定向，访问path时，会被重定向到redirect指定的路由。这里是指路由的重定向，而非请求重定向，和后端的redirect是两码事
+					{
+						path: '/login',
+						component: login
+					}, // 对象中有两个属性：path：表示路由的url，component：表示路由跳转到的组件
+					{
+						path: '/register',
+						component: register
+					}
+				]
+			})
+
+			var vue = new Vue({
+				el: '#app',
+				data: {},
+				methods: {
+					toLogin() {
+						// 编程式导航：通过代码去操作路由
+						// this.$router.push('/login')
+						// 编程式路由如何传递参数
+						this.$router.push({
+							path: '/login',
+							params: {
+								id: '2121',
+								name: '呵呵'
+							}
+						})
+					}
+				},
+				router: routerObj,
+				watch: {
+					'$route.fullPath': function(newVal, oldVal) {
+						// 监听路由去执行对应的逻辑
+						// 应用场景:监听路由的url是否为登录url.如果不是,校验用户是否登录,未登录的情况下跳转到登录页
+						console.log('用户路由跳转，url为：', newVal)
+					}
+				}
+			})
+		</script>
+
+	</body>
+
+</html>

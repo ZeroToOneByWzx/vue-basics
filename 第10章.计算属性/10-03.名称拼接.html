@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>名称拼接</title>
+    <!-- 1.导入vue的包 -->
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="handlerSumName">点我</button>
+      <!--分析：如果使firstName和lastName被修改时，同步修改fullName？-->
+      <input type="text" v-model="firstName" />
+      <input type="text" v-model="lastName" />
+      <input type="text" v-model="sumName" />
+    </div>
+
+    <script>
+      var vue = new Vue({
+        el: "#app",
+        data: {
+          firstName: "",
+          lastName: "",
+          fullName: "",
+        },
+        methods: {
+          handlerSumName() {
+            console.log(this.sumName);
+          },
+        },
+        computed: {
+          // 计算属性。在computed中，可以定义一些 属性 ，这些属性叫做计算属性、计算属性的本质就是一个方法，但是，当我们使用的时候，是将其视为属性去用的。
+          // 简单说就是一句话，按照method写，按照data去用。this.name，this.name()
+
+          // 注意：计算属性调用的时候，一定不要加()，它就是个属性，用法和data一模一样。
+          // 注意：只要计算属性中使用到的所有data中的属性发生了变化，就会立即去重新计算属性的值。
+          // 注意：计算属性的结果会被缓存起来，方便下次直接调用，如果计算属性中用到的所有的data都没有发生变化，就不会对计算属性重新求值。
+          sumName() {
+            console.log("计算属性执行了");
+            return this.firstName + this.lastName;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

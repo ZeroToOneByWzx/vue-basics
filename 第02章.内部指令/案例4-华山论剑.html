@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>华山论剑</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				let vm = new Vue({
+					el: '#itany',
+					data: {
+						id: '',
+						name: '',
+						list: [{
+								id: 1,
+								name: '东邪-黄药师'
+							},
+							{
+								id: 2,
+								name: '西毒-欧阳锋'
+							},
+							{
+								id: 3,
+								name: '南帝-段智兴'
+							},
+							{
+								id: 4,
+								name: '北丐-洪七公'
+							},
+							{
+								id: 5,
+								name: '中神通-王重阳 '
+							}
+						]
+					},
+					methods: {
+						add() {
+							this.list.unshift({
+								id: this.id,
+								name: this.name
+							});
+						}
+					}
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="itany">
+			<h3>华山论剑</h3>
+			<label>Id:<input type="text" v-model="id"></label>
+			<label>绰号:<input type="text" v-model="name"></label>
+			<button type="button" @click="add">晋级</button>
+			<table>
+				<tr v-for="item in list" :key="item.id">
+					<td><input type="checkbox" /></td>
+					<td>{{item.id}}</td>
+					<td>{{item.name}}</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

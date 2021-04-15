@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>发送JSONP请求</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				let vm = new Vue({
+					el: '#itany',
+					data: {
+
+					},
+					methods: {
+						sendJSONP() {
+							// https://sug.so.360.cn/suggest?callback=suggest_so&encodein=utf-8&encodeout=utf-8&format=json&src=so_home&fields=word&word=a&llbq=A5%2CB5%2CC5%2CD5
+							this.$http.jsonp('https://sug.so.360.cn/suggest', {
+								params: {
+									word: 'a'
+								}
+							}).then(resp => {
+								console.log(resp.data.result);
+							});
+						},
+						sendJSONP2() {
+							// https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=32191,1437,31669,32140,32045,32230,32257&wd=a&req=2&bs=a&pbs=a&csor=1&pwd=a&cb=jQuery110202836398569707135_1594832658025&_=1594832658029
+							this.$http.jsonp(
+								'https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=32191,1437,31669,32140,32045,32230,32257', {
+									params: {
+										wd: 'aa'
+									},
+									jsonp: 'cb' //百度使用的jsonp参数名为cb，所以需要修改
+								}).then(resp => {
+								console.log(resp.data.g);
+							});
+						}
+
+					}
+				});
+			};
+		</script>
+	</head>
+	<body>
+		<div id="itany">
+			<button @click="sendJSONP">向360搜索发送JSONP请求</button>
+			<button @click="sendJSONP2">向百度搜索发送JSONP请求</button>
+		</div>
+	</body>
+</html>

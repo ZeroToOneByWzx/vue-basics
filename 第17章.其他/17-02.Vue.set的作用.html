@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <title>Vue.set 全局操作</title>
+  </head>
+  <body>
+    <h1>Vue.set 全局操作</h1>
+    <hr />
+    <div id="app">
+      {{count}}
+      <ul>
+        <li v-for=" aa in arr">{{aa}}</li>
+      </ul>
+    </div>
+    <button onclick="add()">外部添加</button>
+    <!-- 由于Javascript的限制，Vue不能自动检测以下变动的数组。 
+            当你利用索引直接设置一个项时，vue不会为我们自动更新。  
+            当你修改数组的长度时，vue不会为我们自动更新。 -->
+    <script type="text/javascript">
+      function add() {
+        // Vue.set(outData, "count", 2);
+        // app.count++;
+        // outData.count++;
+        console.log("我已经执行了");
+        // app.arr[1] = "ddd";//如果前面没有outData.count++; 修改数组值是无效不起作用
+        // 这时我们的界面是不会自动跟新数组的，我们需要用Vue.set(app.arr,1,’ddd’)来设置改变，vue才会给我们自动更新，这就是Vue.set存在的意义。
+        Vue.set(app.arr, 1, "ddd"); //所以用set方法 这就是set存在意义
+      }
+      var outData = {
+        count: 1,
+        arr: ["aaa", "bbb", "ccc"],
+      };
+      var app = new Vue({
+        el: "#app",
+        data: outData,
+      });
+    </script>
+  </body>
+</html>

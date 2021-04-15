@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定义组件的方式</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="vue-app-one">
+      <h1>App One</h1>
+      {{name}}
+      <my-world></my-world>
+      <button @click="changeName">改名</button>
+    </div>
+
+    <hr />
+
+    <div id="vue-app-two">
+      <h1>App Two</h1>
+      {{name}}
+      <my-world />
+    </div>
+
+    <script type="text/javascript">
+      //全局变量-这里定义全局变量 当点击改名按钮时可以实现vue-app-one与vue-app-two的全局组件值发生变化 不然只有vue-app-one的组件(my-world)有变化
+      let dataName = {
+        name: "component",
+      };
+
+      Vue.component("my-world", {
+        // template: '<h1>你好，世界</h1>'
+        template: `<p> 这是全局组件,可以在任何实例的容器中使用 我的名字是 {{name}}<button @click="changeName">改名</button></p>`,
+        data() {
+          // return { name: "component" };
+          //不要局部变量不然只有vue-app-one的组件(my-world)有变化
+          return dataName;
+        },
+        methods: {
+          changeName() {
+            this.name = "change component";
+          },
+        },
+      });
+
+      const one = new Vue({
+        //这里的vm也是一个组件，称为根组件Root
+        el: "#vue-app-one",
+        data: {
+          name: "One",
+        },
+        methods: {
+          changeName() {
+            this.name = "change One";
+          },
+        },
+      });
+
+      const two = new Vue({
+        //这里的vm也是一个组件，称为根组件Root
+        el: "#vue-app-two",
+        data: {
+          name: "Two",
+        },
+      });
+    </script>
+  </body>
+</html>

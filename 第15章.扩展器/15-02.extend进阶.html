@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <title>Extends Optin Demo</title>
+  </head>
+  <body>
+    <h1>Extends Optin Demo</h1>
+    <hr />
+    <div id="app">
+      {{num}}
+      <p><button @click="add">add</button></p>
+    </div>
+
+    <!--注意 执行顺序 
+    我是被扩展出来的created
+    我是原生的created
+    我是原生方法add
+    我是被扩展出来的updated
+    我是原生的updated-->
+    <script type="text/javascript">
+      var extendsObj = {
+        created: function () {
+          console.log("我是被扩展出来的created");
+        },
+        updated() {
+          console.log('我是被扩展出来的updated');
+        },
+        methods: {
+          //方法名一样 扩展的方法是不会执行的 只有执行原生的
+          add: function () {
+            console.log("我是被扩展出来的方法add");
+            this.num++;
+          },
+        },
+      };
+      var app = new Vue({
+        el: "#app",
+        data: {
+          num: 1,
+        },
+        created: function () {
+          console.log("我是原生的created");
+        },
+        updated() {
+          console.log("我是原生的updated");
+        },
+        methods: {
+          add: function () {
+            console.log("我是原生方法add");
+            this.num++;
+          },
+        },
+      
+        extends: extendsObj,//跟混入很像 但是extendsObj必须是对象 不能是这样 数组[extendsObj] 
+
+
+        //其他知识点: delimiters的作用是改变我们插值的符号。Vue默认的插值是双大括号{{}}。但有时我们会有需求更改这个插值的形式。
+        // delimiters:['${','}']//即用了这句话 {{num}}就可以${num} 替换,{{num}}也就无效了
+      });
+    </script>
+  </body>
+</html>

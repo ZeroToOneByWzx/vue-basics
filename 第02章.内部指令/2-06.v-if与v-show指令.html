@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				let vm = new Vue({
+					el: '#itany',
+					data: {
+						flag: true,
+						type: 'A',
+						error: false,
+						success: false
+					},
+					methods: {
+						change() {
+							// this.flag=false
+							this.flag = !this.flag;
+						}
+					}
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="itany">
+			<!-- 
+				结论：v-show和v-if都可以去动态的控制元素显示与隐藏
+				v-if：每次都会重新删除或者创建元素
+				v-show：每次不会进行DOM的删除和创建,但是会给元素加上display:none样式
+				v-if有较高的切换性能消耗
+				v-show有较高的渲染性能消耗(代码还是在的 不给用户看到代码)
+			
+				如果涉及到元素的频繁切换,最好不要使用v-if
+				如果元素可能永远也不会显示出来给用户看到,最好用v-if
+			-->
+			<!-- <button type="button" v-on:click="change">隐藏</button> -->
+			<!-- <button type="button" v-on:click="flag=false">隐藏</button> -->
+			<button type="button" v-on:click="flag=!flag">隐藏</button>
+			<hr>
+			<!-- v-show与v-if的区别 v-if代码块都没有了 -->
+			<div style="width: 100px;height: 100px; background-color: aquamarine" v-show="flag">Vue1</div>
+			<div style="width: 100px;height: 100px; background-color: bisque" v-if="flag">Vue2</div>
+
+			<!--注意:v-else 、v-else-if 必须跟在 v-if 或者 v-else-if之后。 -->
+			<!-- 可以用 v-else 指令给 v-if 添加一个 "else" 块： -->
+			<div v-if="Math.random() > 0.5">
+				Sorry
+			</div>
+			<div v-else>
+				Not sorry
+			</div>
+			<!-- v-else-if -->
+			<div v-if="type === 'A'">
+				A
+			</div>
+			<div v-else-if="type === 'B'">
+				B
+			</div>
+			<div v-else-if="type === 'C'">
+				C
+			</div>
+			<div v-else>
+				Not A/B/C
+			</div>
+
+			<hr />
+			<button @click="error=!error">toggle</button>
+			<button @click="success=!success">success</button>
+			<p v-if="error">erro</p>
+			<p v-else>success</p>
+		</div>
+	</body>
+</html>

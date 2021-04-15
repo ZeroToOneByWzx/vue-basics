@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>案例-新闻列表反转</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <li v-for="item in reverseNews">{{item.title}}->{{item.date}}</li></li>
+      </ul>
+    </div>
+
+    <script>
+      var newsList = [
+        { title: "香港或就“装甲车被扣”事件追责 起诉涉事运输公司", date: "2017/3/10" },
+        { title: "日本第二大准航母服役 外媒：针对中国潜艇", date: "2017/3/12" },
+        { title: "起底“最短命副市长”：不到40天落马，全家被查", date: "2017/3/23" },
+        { title: "中国北方将有明显雨雪降温天气 南方阴雨持续", date: "2017/3/13" },
+      ];
+      var app = new Vue({
+        el: "#app",
+        data: {
+          message: "hello Vue!",
+          newsList:newsList
+        },
+        computed: {
+          reverseNews: function () {
+            return this.newsList.reverse();//js原生反转数组的方法reverse
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

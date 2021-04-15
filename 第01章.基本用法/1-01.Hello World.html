@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello World</title>
+    <!-- 我们导入了vue的包之后，在浏览器的内存中，我们就多了一个Vue的构造函数。 -->
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      window.onload = function () {
+        //配置是否允许 vue-devtools检查代码,方便调试,生产环境中需要设置为false
+        Vue.config.devtools = false;
+        Vue.config.productionTip = false; //阻止vue启动时生成生产消息
+        //实例化Vue对象
+        var vm = new Vue({
+          el: "#itany", //element 指定关联的选择器    表示当前我们 new的这个Vue实例要控制页面上的哪个区域
+          // 这里的data就是MVVM中的M,专门用来保存每个页面的数据的
+          // data() {
+          // 	return {
+          // 		name: 'Zero',
+          // 		wechat: '2323'
+          // 	}
+          // }
+          // data是MVVM中的m，专门存放每个页面的数据。
+          data: {
+            // data属性中,存放的是el中要用到的数据
+            ok: true,
+            name: "Zero",
+            message: "Hello World!", //通过Vue提供的指令,很方便的就能把数据渲染到页面上
+          },
+          methods: {
+            hello() {
+              return "Hello World!";
+            },
+            greet(time) {
+              // return 'Good night '+this.name;
+              // es6语法
+              return `Good ${time} ${this.name}`;
+            },
+            haveLunch() {
+              return `吃过饭了吗`;
+            },
+          },
+          filters: {},
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <!-- div#itany" -->
+    <div id="itany">
+      <!-- 两对大括号{{}}称为模板,用来进行数据的绑定显示在页面中 -->
+      {{message}}
+      <hr />
+      {{hello()}}
+      <hr />
+      <p>{{greet('morning')}}</p>
+      <hr />
+      <!-- Vue.js都提供了完全的JavaScript表达式支持。 -->
+      {{5+5}}<br />
+      {{ ok ? 'YES' : 'NO' }}<br />
+      {{ message.split('').reverse().join('') }}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>select列表的双向绑定</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				new Vue({
+					el: '#app',
+					data: {
+						selected: ''
+					}
+				})
+			}
+		</script>
+	</head>
+	<body>
+		<div id="app">
+			<select v-model="selected" name="fruit">
+				<option value="">选择一个网站</option>
+				<option value="www.runoob.com">Runoob</option>
+				<option value="www.google.com">Google</option>
+			</select>
+
+			<div id="output">
+				选择的网站是: {{selected}}
+			</div>
+		</div>
+	</body>
+</html>

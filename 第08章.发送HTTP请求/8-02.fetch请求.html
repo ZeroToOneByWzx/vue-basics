@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+	<body>
+		<!-- http://jsonplaceholder.typicode.com/todos -->
+		<h1>Fetch请求</h1>
+		<div id="itany">
+			<!-- {{todos}} -->
+			<form @submit.prevent="onSubmit">
+				<input type="text" v-model="todo.title" />
+				<input type="checkbox" v-model="todo.completed" />
+				<input type="submit" value="提交" />
+			</form>
+
+			<ul>
+				<li v-for="todo in todos">
+					<h1>{{todo.title}}</h1>
+					<h2 v-if="todo.completed">{{todo.completed}}</h2>
+				</li>
+			</ul> 
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el: '#itany',
+				data: {
+					todos: [],
+					todo: {
+						title: "",
+						completed: false
+					}
+				},
+				methods: {
+					onSubmit() {
+						// console.log(this.todo);
+						fetch("http://jsonplaceholder.typicode.com/todos", {
+							method: "POST",
+							body: JSON.stringify(this.todo),
+							headers: {
+								'Content-Type': 'application/json'
+							}
+						}).then(res => {
+							return res.json();
+						}).then(todo => {
+							// console.log(todo);
+							this.todos.unshift(todo);
+						}); 
+					}
+				},
+				mounted() {
+					//fetch  api请求接口
+					//get请求
+					fetch("http://jsonplaceholder.typicode.com/todos").then(res => {
+						// console.log(todos);
+						// console.log(res);
+						// console.log(res.json());
+						return res.json();
+					}).then(todos => {
+						// console.log(todos);
+						this.todos = todos;
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

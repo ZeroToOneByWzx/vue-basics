@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>名称拼接</title>
+    <!-- 1.导入vue的包 -->
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 分析：如果使firstName和lastName被修改时，同步修改fullName-->
+        <!-- <input type="text" v-model="firstName" @keyup="handlerFullName"/> -->
+        <input type="text" v-model="firstName" />
+        <input type="text" v-model="lastName" />
+        <input type="text" v-model="fullName" />
+    </div>
+
+    <script>
+        var vue = new Vue({
+            el: "#app",
+            data: {
+                firstName: "",
+                lastName: "",
+                fullName: "",
+            },
+            methods: {
+                // 第一种方式：给前两个表单加上键盘抬起事件。当触发事件时，拼接两个name，为fullName赋值。
+                handlerFullName() {
+                    this.fullName = this.firstName + this.lastName;
+                },
+            },
+            watch: {
+                // 监听器，可以监听某个属性
+                firstName: function(newVal, oldVal) {
+                    // 格式：要监听的属性:function(newVal, oldVal)
+                    this.fullName = newVal + this.lastName;
+                },
+                // 使用监听器，可以直接对属性进行监听，不需要去监听用户的操作。使开发者只关注Model，不关注View
+                lastName: function(newVal, oldVal) {
+                    this.fullName = this.firstName + newVal;
+                },
+            },
+        });
+    </script>
+</body>
+</html>

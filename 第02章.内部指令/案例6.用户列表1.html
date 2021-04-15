@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Document</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="../css/layui.css">
+	</head>
+
+	<body>
+		<div id="app">
+
+			<div class="layui-inline">
+				<div class="layui-input-inline" style="width: 100px;">
+					<input type="text" placeholder="ID" class="layui-input" v-model="id">
+				</div>
+				<div class="layui-input-inline" style="width: 100px;">
+					<input type="text" placeholder="姓名" class="layui-input" v-model="name">
+				</div>
+				<div class="layui-input-inline" style="width: 100px;">
+					<input type="text" placeholder="性别" class="layui-input" v-model="sex">
+				</div>
+				<div class="layui-input-inline" style="width: 100px;">
+					<input type="text" placeholder="备注" class="layui-input" v-model="comment">
+				</div>
+				<div class="layui-input-inline" style="width: 100px;">
+					<button type="button" class="layui-btn" @click="add">添加</button>
+				</div>
+				<div class="layui-input-inline" style="width: 100px;">
+					<input type="text" placeholder="搜索姓名" class="layui-input" v-model="searchName">
+				</div>
+				<div class="layui-input-inline" style="width: 100px;">
+					<button type="button" class="layui-btn" @click="search">搜索</button>
+				</div>
+			</div>
+
+			<table class="layui-table">
+				<colgroup>
+					<col width="150">
+					<col width="200">
+					<col>
+				</colgroup>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>备注</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(item, index) in userList" :key="item.id">
+						<td>{{item.id}}</td>
+						<td v-text="item.name"></td>
+						<td>{{item.sex}}</td>
+						<td v-html="item.comment"></td>
+						<td><button type="button" class="layui-btn layui-btn-danger" @click="deleteById(item.id)">删除</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+
+
+	<script>
+		var vue = new Vue({
+			el: '#app',
+			data: {
+				id: '',
+				name: '',
+				sex: '',
+				comment: '',
+				searchName: '',
+				userList: [{
+						id: 1,
+						name: '雷哥',
+						sex: '男',
+						comment: '地表最帅男人'
+					},
+					{
+						id: 2,
+						name: '稽哥',
+						sex: '男',
+						comment: '地表最最帅男人'
+					},
+					{
+						id: 3,
+						name: '刘备',
+						sex: '男',
+						comment: '刘知兵'
+					},
+					{
+						id: 4,
+						name: '关羽',
+						sex: '男',
+						comment: '关过江'
+					},
+					{
+						id: 5,
+						name: '张飞',
+						sex: '男',
+						comment: '张爱兵'
+					}
+				]
+			},
+			methods: {
+				deleteById(id) {
+					// es6语法新增了强大的数组操作函数
+					let index = this.userList.findIndex(item => {
+						if (item.id === id) {
+							return true
+						}
+					})
+					this.userList.splice(index, 1)
+				},
+				add() {
+					let user = {
+						id: this.id,
+						name: this.name,
+						sex: this.sex,
+						comment: this.comment
+					}
+					this.userList.push(user)
+				},
+				search() {
+					let itemArr = this.userList.filter(item => {
+						if (item.name.includes(this.searchName)) {
+							return item
+						}
+					})
+					console.log(itemArr)
+				}
+			}
+		})
+	</script>
+
+</html>

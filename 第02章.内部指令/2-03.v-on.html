@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      window.onload = function () {
+        var btn = { template: `<button>组件Add</button>` };
+
+        let vm = new Vue({
+          el: "#itany",
+          data: {
+            //存储数据
+            x: 0,
+            y: 0,
+            age: 30,
+            arr: [12, 3, 4, 56],
+            myTitle: "得成比目何辞死,愿作鸳鸯不羡仙",
+          },
+          components: {
+            btn: btn,
+          },
+          methods: {
+            //存储方法 这个methods属性中定义了当前Vue实例所有可用的方法
+            show: function () {
+              console.log("show方法");
+            },
+            add() {
+              // console.log(this);//this表示当前vue实例
+              console.log(this === vm); //true
+              this.arr.push(666); //使用this访问当前实例中的成员  this.arr.push(666)==vm.arr.push(666);
+              this.show();
+            },
+            alertInfo: function (msg) {
+              alert(msg);
+            },
+            print(e) {
+              // console(e);
+              console.log(e.target.innerHTML); //Dom对象
+              console.log(this);
+            },
+            adds(inc) {
+              console.log("inc");
+              this.age += inc;
+            },
+            updateXY(event) {
+              console.log(event);
+              this.x = event.offsetX;
+              this.y = event.offsetY;
+            },
+          },
+        });
+      };
+    </script>
+    <style type="text/css">
+      #canvas {
+        width: 600px;
+        padding: 200px 20px;
+        text-align: center;
+        border: 1px solid #000000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="itany">
+      <!-- <button type="button" onclick="">点我</button> -->
+      <!-- <button type="button" v-on:click="show">点我</button> -->
+      <!-- 方法没有参数是不用小括号的show() -->
+      <!-- <button type="button" v-on:click="add">向数组中添加一个元素</button> -->
+      <br />
+      <!-- {{arr}} -->
+      <hr />
+      <!-- <button type="button" @click="print($event)">Click Me</button> -->
+      <hr />
+      <!-- <button type="button" v-on:click="show">点我</button> -->
+      <!-- <button type="button" @click="show">点我</button> -->
+      <hr />
+      <!-- <button type="button" v-on:mousemove="show">鼠标经过</button> -->
+      <!-- <button type="button" v-on:dblclick="show">鼠标双击</button> -->
+      <hr />
+      <!-- 错误 -->
+      <!-- <input
+        type="button"
+        value="点我吧（错误姿势）"
+        :title="myTitle + '———卢照邻'"
+        v-on:click="alert('初唐四杰（王杨卢骆）之一,排名第三')"
+      /> -->
+      <!-- 正确 -->
+      <!-- <input
+        type="button"
+        value="点我吧（正确姿势）"
+        :title="myTitle + '———卢照邻'"
+        v-on:click="alertInfo('初唐四杰（王杨卢骆）之一,排名第三')"
+      /> -->
+
+      <hr />
+      <!-- <div id="canvas" @mousemove="updateXY">{{x}},{{y}}</div> -->
+
+      <hr />
+      {{age}}
+      <p><button @click="adds(3)">+3</button></p>
+      <!-- 用.native修饰器来调用构造器里的add方法 -->
+      <p><button @click.native="adds(3)">3</button></p>
+    </div>
+  </body>
+</html>
