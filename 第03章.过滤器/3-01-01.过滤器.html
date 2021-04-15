@@ -1,59 +1,74 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>自定义过滤器</title>
-		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript">
-			/* 自定义全局过滤器 */
-			Vue.filter('addZero', function(data) {
-				// console.log(data);
-				return data < 10 ? '0' + data : data;
-			});
-			// Vue.filter('number', (data, n) => {
-			// 	// console.log(data, n);
-			// 	return data.toFixed(3);
-			// });
-			Vue.filter('date', data => {
-				console.log(data);
-				let d = new Date(data);
-				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() +
-					':' + d.getSeconds();
-			});
+  <head>
+    <meta charset="utf-8" />
+    <title>自定义过滤器</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      /* 自定义全局过滤器 */
+      Vue.filter("addZero", function (data) {
+        // console.log(data);
+        return data < 10 ? "0" + data : data;
+      });
+      // Vue.filter('number', (data, n) => {
+      // 	// console.log(data, n);
+      // 	return data.toFixed(3);
+      // });
+      Vue.filter("date", (data) => {
+        console.log(data);
+        let d = new Date(data);
+        return (
+          d.getFullYear() +
+          "-" +
+          (d.getMonth() + 1) +
+          "-" +
+          d.getDate() +
+          " " +
+          d.getHours() +
+          ":" +
+          d.getMinutes() +
+          ":" +
+          d.getSeconds()
+        );
+      });
 
-			Vue.filter('capitalize', message => {
-				if (!message) return ''
-				message = message.toString()
-				return message.charAt(0).toUpperCase() + message.slice(1)
-			});
+      Vue.filter("capitalize", (message) => {
+        if (!message) return "";
+        message = message.toString();
+        return message.charAt(0).toUpperCase() + message.slice(1);
+      });
 
-			window.onload = function() {
-				let vm = new Vue({
-					el: '#itany',
-					data: {
-						message: 'runoob',
-						currentTime: Date.now()
-					},
-					filters: {
-						//局部过滤器
-						number: (data, n) => {
-							return data.toFixed(3);
-						}
-					}
-				});
-			}
-		</script>
-	</head>
-	<body>
-		<div id="itany">
-			<h3>{{3|addZero}}</h3>
-			<h3>{{12.345678|number(3)}}</h3>
-			<h3>{{currentTime|date}}</h3>
-			<!-- 对输入的字符串第一个字母转为大写 -->
-			<h3>{{ message | capitalize }}</h3>
-			
-			<!-- {{ message | filterA('arg1', arg2) }} -->
-			<!-- 这里，message 是第一个参数，字符串 'arg1' 将传给过滤器作为第二个参数， arg2 表达式的值将被求值然后传给过滤器作为第三个参数 -->
-		</div>
-	</body>
+      window.onload = function () {
+        let vm = new Vue({
+          el: "#itany",
+          data: {
+            message: "Runoob",
+            currentTime: Date.now(),
+          },
+          filters: {
+            //局部过滤器
+            number: (data, n) => {
+              return data.toFixed(3);
+            },
+            lower(value) {
+              return value.toLowerCase(); //大写转小写
+            },
+          },
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="itany">
+      {{message | lower}}
+      <h3>{{3|addZero}}</h3>
+      <h3>{{12.345678|number(3)}}</h3>
+      <h3>{{currentTime|date}}</h3>
+      <!-- 对输入的字符串第一个字母转为大写 -->
+      <h3>{{ message | capitalize }}</h3>
+
+      <!-- {{ message | filterA('arg1', arg2) }} -->
+      <!-- 这里，message 是第一个参数，字符串 'arg1' 将传给过滤器作为第二个参数， arg2 表达式的值将被求值然后传给过滤器作为第三个参数 -->
+    </div>
+  </body>
 </html>
