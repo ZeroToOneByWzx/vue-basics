@@ -87,17 +87,16 @@
 
         <!-- 键值循环 2.0开始键值是反的 1.0不反-->
         <!-- <li v-for="(val,key) in arr">{{key}}={{val}}</li> -->
-        <!-- <li v-for="(val,key) in user">{{key}}={{val}}</li> -->
+        <li v-for="(val,key) in user">{{key}}={{val}}</li>
 
         <!-- 可以直接循环包含重复数据的集合-2.0开始数组是可以包含数据的 1.0不可以-->
         <!-- 还可以通过指定:key属性绑定唯一key,当更新元素时可重用元素,提高效率,类似于1.0中track-by -->
         <!-- <li v-for="(value,k) in arrs" :key="k">{{value}}-{{k}}</li> -->
 
         <!-- 在普通循环的基础上了index -->
-        <!-- <li v-for="(user,index) in users"> -->
-        <!-- {{user}} -->
-        <!-- {{index+1}}:{{user.id}},{{user.name}},{{user.age}} -->
-        <!-- </li> -->
+        <!-- <li v-for="(user,index) in users">
+          {{user}} {{index+1}}:{{user.id}},{{user.name}},{{user.age}}
+        </li> -->
         <!-- 注意：在遍历对象身上的键值对的时候,除了有 val 、key ,在第三个位置还有一个索引index  -->
         <!-- <p v-for="(val,keys,index) in userInfo">键是：{{keys}} ,值是：{{ val }} ,索引：{{index}}</p> -->
         <!-- </li> -->
@@ -127,15 +126,15 @@
 			</template> -->
 
       <hr />
-      <div>
+      <!-- <div>
         <input type="text" v-model="id" />
         <input type="text" v-model="name" />
         <button @click="add">添加</button>
-      </div>
+      </div> -->
       <!-- key是在v-for中表示唯一标识,在任何的v-for中建议都加上key。key一定要保证唯一性 -->
-      <p v-for="item in objectList" :key="item.id">
+      <!-- <p v-for="item in objectList" :key="item.id">
         <input type="checkbox" name="" id="" /> {{item.id}} --- {{item.name}}
-      </p>
+      </p> -->
     </div>
   </body>
 </html>
